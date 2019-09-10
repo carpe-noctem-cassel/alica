@@ -213,8 +213,14 @@ bool PlanSelector::getPlansForStateInternal(
             RunningPlan* rp = _pb->makeRunningPlan(beh);
             // A Behaviour is a Plan too (in this context)
             rp->usePlan(beh);
-            o_plans.push_back(rp);
             rp->setParent(planningParent);
+            if (!rp->evalPreCondition()){
+                continue;
+            }
+            if (!rp->isRuntimeConditionValid()) {
+                continue;
+            }
+            o_plans.push_back(rp);
 
             ALICA_DEBUG_MSG("PS: Added Behaviour " << beh->getName());
 
