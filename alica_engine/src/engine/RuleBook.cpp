@@ -217,14 +217,15 @@ PlanChange RuleBook::planAbortRule(RunningPlan& r)
     assert(!r.isRetired());
     if (r.isFailureHandlingNeeded())
         return PlanChange::NoChange;
-    if (r.isBehaviour())
-        return PlanChange::NoChange;
     if (r.getStatus() == PlanStatus::Success)
         return PlanChange::NoChange;
     if (!r.getCycleManagement().mayDoUtilityCheck())
         return PlanChange::NoChange;
+//    if (r.isBehaviour())
+//        return PlanChange::NoChange;
 
-    if ((r.getActiveState() != nullptr && r.getActiveState()->isFailureState()) || !r.getAssignment().isValid() || !r.isRuntimeConditionValid()) {
+    // TODO: Check whether behaviour has always nullptr assignment and the following if condition is okay for behaviours, too
+    if ((r.isBehaviour() && !r.isRuntimeConditionValid()) || (r.getActiveState() != nullptr && r.getActiveState()->isFailureState()) || !r.getAssignment().isValid() || !r.isRuntimeConditionValid()) {
 
         ALICA_DEBUG_MSG("RB: PlanAbort-Rule called.");
         ALICA_DEBUG_MSG("RB: PlanAbort RP \n" << r);
