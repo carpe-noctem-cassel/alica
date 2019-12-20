@@ -164,11 +164,14 @@ public:
     {
         switch (_status.runTimeConditionStatus) {
         case EvalStatus::True:
+            std::cout << "RunningPlan 167 : True " << std::endl;
             return true;
         case EvalStatus::False:
+            std::cout << "RunningPlan 170 : False " << std::endl;
             return false;
         case EvalStatus::Unknown:
         default:
+            std::cout << "RunningPlan 172 : Unknown " << std::endl;
             return evalRuntimeCondition();
         }
     }

@@ -32,6 +32,7 @@ void Condition::setConditionString(const std::string& conditionString)
 bool Condition::evaluate(const RunningPlan& rp) const
 {
     if (_basicCondition == nullptr) {
+        std::cout << "Condition line 35  nullpointer" << std::endl;
         ALICA_ERROR_MSG("Condition: Missing implementation of condition: ID " << getId());
         return false;
     } else {

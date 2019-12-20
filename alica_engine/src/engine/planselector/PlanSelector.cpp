@@ -214,10 +214,13 @@ bool PlanSelector::getPlansForStateInternal(
             // A Behaviour is a Plan too (in this context)
             rp->usePlan(beh);
             rp->setParent(planningParent);
+            std::cout << "Planselector line 217  " << std::endl;
             if (!rp->evalPreCondition()){
+                std::cout << "Planselector line 219  " << std::endl;
                 continue;
             }
             if (!rp->isRuntimeConditionValid()) {
+                std::cout << "Planselector line 223  " << std::endl;
                 continue;
             }
             o_plans.push_back(rp);

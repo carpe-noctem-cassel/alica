@@ -39,6 +39,7 @@ public:
 private:
     friend ModelFactory;
     friend BehaviourFactory;
+    friend ExpressionHandler; // TODO: get rid of this
 
     void setDeferring(int deferring);
     void setEventDriven(bool eventDriven);

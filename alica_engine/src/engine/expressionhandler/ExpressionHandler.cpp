@@ -18,6 +18,7 @@
 #include "engine/expressionhandler/DummyConstraint.h"
 #include "engine/model/Condition.h"
 #include "engine/model/Plan.h"
+#include "engine/model/Behaviour.h"
 #include "engine/model/PreCondition.h"
 #include "engine/model/RuntimeCondition.h"
 #include "engine/model/Transition.h"
@@ -77,6 +78,25 @@ void ExpressionHandler::attachAll()
                     t->_preCondition->setBasicCondition(make_shared<BasicFalseCondition>());
                 }
             }
+        }
+    }
+    for (const std::pair<const int64_t, Behaviour*>& it : pr->_behaviours) {
+        Behaviour* b = it.second;
+        std::cout <<"ExpressionHandler 84 Behaviour: " << b->getName() << "\n" << std::endl;
+
+        if (b->getPreCondition() != nullptr) {
+            if (b->getPreCondition()->isEnabled()) {
+                std::cout <<"ExpressionHandler 89 precondition enabled: " << "\n" << std::endl;
+                b->_preCondition->setBasicCondition(this->conditionCreator->createConditions(b->getPreCondition()->getId()));
+                attachConstraint(b->_preCondition);
+            } else {
+                b->_preCondition->setBasicCondition(make_shared<BasicFalseCondition>());
+            }
+        }
+
+        if (b->getRuntimeCondition() != nullptr) {
+            b->_runtimeCondition->setBasicCondition(this->conditionCreator->createConditions(b->getRuntimeCondition()->getId()));
+            attachConstraint(b->_runtimeCondition);
         }
     }
 }

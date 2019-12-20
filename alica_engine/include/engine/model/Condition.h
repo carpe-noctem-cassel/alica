@@ -44,6 +44,8 @@ public:
 
     bool evaluate(const RunningPlan& rp) const;
 
+    //void setBasicCondition(const std::shared_ptr<BasicCondition>& basicCondition);
+
 private:
     friend ModelFactory;
     friend ConditionFactory;

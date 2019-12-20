@@ -168,6 +168,7 @@ bool RunningPlan::evalPreCondition() const
     const PreCondition* preCondition = nullptr;
     if (const Behaviour* behaviour = dynamic_cast<const Behaviour*>(_activeTriple.abstractPlan)) {
         preCondition = behaviour->getPreCondition();
+        std::cout << "Running plan line 171  " << preCondition->getName()  << std::endl;
     }
     if (const Plan* plan = dynamic_cast<const Plan*>(_activeTriple.abstractPlan)) {
         preCondition = plan->getPreCondition();
@@ -176,6 +177,7 @@ bool RunningPlan::evalPreCondition() const
         return true;
     }
     try {
+        std::cout << "evaluate precondition behaviour RunningPlan 182:" << preCondition->evaluate(*this) << "\n" << std::endl;
         return preCondition->evaluate(*this);
     } catch (const std::exception& e) {
         ALICA_ERROR_MSG("Exception in precondition: " << e.what());
@@ -195,6 +197,7 @@ bool RunningPlan::evalRuntimeCondition() const
     }
     const RuntimeCondition* runtimeCondition = nullptr;
     if (const Behaviour* behaviour = dynamic_cast<const Behaviour*>(_activeTriple.abstractPlan)) {
+        std::cout << "evaluate Runtime behaviour RunningPlan 202 \n" << std::endl;
         runtimeCondition = behaviour->getRuntimeCondition();
     }
     if (const Plan* plan = dynamic_cast<const Plan*>(_activeTriple.abstractPlan)) {
@@ -454,6 +457,8 @@ void RunningPlan::deactivate()
     _status.active = PlanActivity::Retired;
     if (isBehaviour()) {
         _ae->getBehaviourPool()->stopBehaviour(*this);
+        std::cout << "RP 460: Behaviour removed from pool" << std::endl;
+        _status.active = PlanActivity::Active;
     } else {
         _ae->getTeamObserver()->notifyRobotLeftPlan(_activeTriple.abstractPlan);
     }
