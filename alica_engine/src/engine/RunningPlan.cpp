@@ -160,24 +160,32 @@ void RunningPlan::setAllocationNeeded(bool need)
  */
 bool RunningPlan::evalPreCondition() const
 {
+    std::cout << "Running plan line 163  " << std::endl;
     if (_activeTriple.abstractPlan == nullptr) {
         ALICA_ERROR_MSG("Cannot Eval Condition, Plan is null");
+        std::cout << "Running plan line 165  " << std::endl;
         assert(false);
     }
 
     const PreCondition* preCondition = nullptr;
     if (const Behaviour* behaviour = dynamic_cast<const Behaviour*>(_activeTriple.abstractPlan)) {
-        preCondition = behaviour->getPreCondition();
-        std::cout << "Running plan line 171  " << preCondition->getName()  << std::endl;
+        std::cout << "Running plan line 172  " << std::endl;
+        if(behaviour->getPreCondition() != nullptr) {
+            preCondition = behaviour->getPreCondition();
+            std::cout << "Running plan line 174 " << preCondition->getName() << std::endl;
+        }
     }
     if (const Plan* plan = dynamic_cast<const Plan*>(_activeTriple.abstractPlan)) {
+        std::cout << "Running plan line 177 " << std::endl;
         preCondition = plan->getPreCondition();
+        std::cout << "Running plan line 179  " << preCondition->getName()  << std::endl;
     }
     if (preCondition == nullptr) {
+        std::cout << "Running plan line 182  " << std::endl;
         return true;
     }
     try {
-        std::cout << "evaluate precondition behaviour RunningPlan 182:" << preCondition->evaluate(*this) << "\n" << std::endl;
+        std::cout << "evaluate precondition behaviour RunningPlan 186:" << preCondition->evaluate(*this) << "\n" << std::endl;
         return preCondition->evaluate(*this);
     } catch (const std::exception& e) {
         ALICA_ERROR_MSG("Exception in precondition: " << e.what());
@@ -460,6 +468,7 @@ void RunningPlan::deactivate()
         std::cout << "RP 460: Behaviour removed from pool" << std::endl;
         _status.active = PlanActivity::Active;
     } else {
+        _status.active = PlanActivity::Retired;
         _ae->getTeamObserver()->notifyRobotLeftPlan(_activeTriple.abstractPlan);
     }
     revokeAllConstraints();

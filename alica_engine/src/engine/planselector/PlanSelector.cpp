@@ -214,7 +214,7 @@ bool PlanSelector::getPlansForStateInternal(
             // A Behaviour is a Plan too (in this context)
             rp->usePlan(beh);
             rp->setParent(planningParent);
-            std::cout << "Planselector line 217  " << std::endl;
+            std::cout << "Planselector line 217  " <<  beh->getName() << std::endl;
             if (!rp->evalPreCondition()){
                 std::cout << "Planselector line 219  " << std::endl;
                 continue;
@@ -223,6 +223,7 @@ bool PlanSelector::getPlansForStateInternal(
                 std::cout << "Planselector line 223  " << std::endl;
                 continue;
             }
+            std::cout << "Planselector line 226  " << std::endl;
             o_plans.push_back(rp);
 
             ALICA_DEBUG_MSG("PS: Added Behaviour " << beh->getName());

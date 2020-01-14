@@ -370,7 +370,7 @@ PlanChange RuleBook::allocationRule(RunningPlan& rp)
     if(!rp.isBehaviour()) {
         rp.getAssignment().getAgentsInState(rp.getActiveState(), agents);
 
-        std::cout << "RB: allocation  1" << std::endl;
+        std::cout << "RB: allocation  1" << rp.getActiveTriple().abstractPlan->getName() << std::endl;
 
         ALICA_DEBUG_MSG(rp.getActiveState()->getPlans().size() << " Plans in State " << rp.getActiveState()->getName());
 
