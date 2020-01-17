@@ -163,7 +163,6 @@ bool RunningPlan::evalPreCondition() const
     std::cout << "Running plan line 163  " << std::endl;
     if (_activeTriple.abstractPlan == nullptr) {
         ALICA_ERROR_MSG("Cannot Eval Condition, Plan is null");
-        std::cout << "Running plan line 165  " << std::endl;
         assert(false);
     }
 
@@ -462,15 +461,14 @@ void RunningPlan::accept(IPlanTreeVisitor* vis)
  */
 void RunningPlan::deactivate()
 {
-    _status.active = PlanActivity::Retired;
     if (isBehaviour()) {
         _ae->getBehaviourPool()->stopBehaviour(*this);
         std::cout << "RP 460: Behaviour removed from pool" << std::endl;
-        _status.active = PlanActivity::Active;
+        _status.active = PlanActivity::InActive;
     } else {
         _status.active = PlanActivity::Retired;
-        _ae->getTeamObserver()->notifyRobotLeftPlan(_activeTriple.abstractPlan);
     }
+    _ae->getTeamObserver()->notifyRobotLeftPlan(_activeTriple.abstractPlan);
     revokeAllConstraints();
     deactivateChildren();
 }
