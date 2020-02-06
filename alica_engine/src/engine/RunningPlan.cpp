@@ -463,7 +463,7 @@ void RunningPlan::deactivate()
 {
     if (isBehaviour()) {
         _ae->getBehaviourPool()->stopBehaviour(*this);
-        std::cout << "RP 460: Behaviour removed from pool" << std::endl;
+        std::cout << "RP 466: Behaviour removed from pool............................................................................................" << std::endl;
         _status.active = PlanActivity::InActive;
     } else {
         _status.active = PlanActivity::Retired;

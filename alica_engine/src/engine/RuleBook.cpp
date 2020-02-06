@@ -214,7 +214,7 @@ PlanChange RuleBook::authorityOverrideRule(RunningPlan& r)
  */
 PlanChange RuleBook::planAbortRule(RunningPlan& r)
 {
-    std::cout << "RuleBook: PlanAbort Beginning " << r.getActiveTriple().abstractPlan->getName() << "\n" << std::endl;
+    std::cout << "\n RuleBook: PlanAbort Beginning " << r.getActiveTriple().abstractPlan->getName() << std::endl;
     assert(!r.isRetired());
     if (r.isFailureHandlingNeeded()) {
         std::cout << "RB: PlanAbort FailureHandling \n" << r << "\n" << std::endl;
@@ -291,9 +291,7 @@ PlanChange RuleBook::planRedoRule(RunningPlan& r)
  */
 PlanChange RuleBook::planReplaceRule(RunningPlan& r)
 {
-    //if(!r.isBehaviour()) {
-        assert(!r.isRetired());
-    //}
+    assert(!r.isRetired());
 
     std::cout << "RB: planReplace  " << std::endl;
 
