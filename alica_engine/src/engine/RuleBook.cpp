@@ -367,14 +367,21 @@ PlanChange RuleBook::allocationRule(RunningPlan& rp)
     AgentGrp agents;
     if(!rp.isBehaviour()) {
         rp.getAssignment().getAgentsInState(rp.getActiveState(), agents);
-
-        std::cout << "RB: allocation  1" << rp.getActiveTriple().abstractPlan->getName() << std::endl;
+    }
+        std::cout << "RB: allocation  1  " << rp.getActiveTriple().abstractPlan->getName() << std::endl;
 
         ALICA_DEBUG_MSG(rp.getActiveState()->getPlans().size() << " Plans in State " << rp.getActiveState()->getName());
 
         std::vector<RunningPlan*> children;
-        bool ok = _ps->getPlansForState(&rp, rp.getActiveState()->getPlans(), agents, children);
-        if (!ok || children.size() < rp.getActiveState()->getPlans().size()) {
+        bool ok;
+        if(rp.isBehaviour()){
+            ok = _ps->getPlansForState(&rp, rp.getParent()->getActiveState()->getPlans(), agents, children);
+        } else {
+            ok = _ps->getPlansForState(&rp, rp.getActiveState()->getPlans(), agents, children);
+        }
+    std::cout << "RB: allocation  1.1" << std::endl;
+        if (!ok || (!rp.isBehaviour() && children.size() < rp.getActiveState()->getPlans().size())) {
+            std::cout << "RB: allocation  1.2" << std::endl;
             rp.addFailure();
             ALICA_DEBUG_MSG("RB: PlanAllocFailed " << rp.getActivePlan()->getName());
             return PlanChange::FailChange;
@@ -386,11 +393,13 @@ PlanChange RuleBook::allocationRule(RunningPlan& rp)
         ALICA_DEBUG_MSG("RB: after add children");
         ALICA_DEBUG_MSG("RB: PlanAlloc " << rp.getActivePlan()->getName());
 
-        if (!children.empty()) {
-            _log->eventOccurred("PAlloc(", rp.getActivePlan()->getName(), " in State ", rp.getActiveState()->getName(), ")");
-            return PlanChange::InternalChange;
+        if(!rp.isBehaviour()) {
+            if (!children.empty()) {
+                _log->eventOccurred("PAlloc(", rp.getActivePlan()->getName(), " in State ", rp.getActiveState()->getName(), ")");
+                return PlanChange::InternalChange;
+            }
         }
-    }
+    //}
     std::cout << "RB: allocation  end" << std::endl;
     return PlanChange::NoChange;
 }

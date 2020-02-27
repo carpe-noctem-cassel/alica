@@ -79,6 +79,7 @@ RunningPlan* PlanSelector::getBestSimilarAssignment(const RunningPlan& rp, const
  */
 bool PlanSelector::getPlansForState(RunningPlan* planningParent, const AbstractPlanGrp& plans, const AgentGrp& robotIDs, std::vector<RunningPlan*>& o_plans)
 {
+    std::cout << "PS: getPlansForState" << std::endl;
     _pap.reset();
     try {
         return getPlansForStateInternal(planningParent, plans, robotIDs, o_plans);
@@ -208,7 +209,12 @@ bool PlanSelector::getPlansForStateInternal(
 {
     ALICA_DEBUG_MSG("<######PS: GetPlansForState: Parent:" << (planningParent != nullptr ? planningParent->getActivePlan()->getName() : "null")
                                                            << " plan count: " << plans.size() << " robot count: " << robotIDs.size() << " ######>");
+
+    std::cout << "PS: getPlansForStateInternal" << std::endl;
+
     for (const AbstractPlan* ap : plans) {
+
+        std::cout << "PS: getPlansForStateInternal 2" << std::endl;
         if (const Behaviour* beh = dynamic_cast<const Behaviour*>(ap)) {
             RunningPlan* rp = _pb->makeRunningPlan(beh);
             // A Behaviour is a Plan too (in this context)
@@ -225,6 +231,7 @@ bool PlanSelector::getPlansForStateInternal(
             }
             std::cout << "Planselector line 226  " << std::endl;
             o_plans.push_back(rp);
+            std::cout << "Planselector line 228  " << std::endl;
 
             ALICA_DEBUG_MSG("PS: Added Behaviour " << beh->getName());
 
@@ -246,6 +253,7 @@ bool PlanSelector::getPlansForStateInternal(
             o_plans.push_back(rp);
         }
     }
+    std::cout << "Planselector line 256  " << std::endl;
     return true;
 }
 
