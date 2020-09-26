@@ -44,7 +44,7 @@ bool BehaviourPool::init(IBehaviourCreator* bc)
 
     const PlanRepository::Accessor<Behaviour>& behaviours = _ae->getPlanRepository()->getBehaviours();
     for (const Behaviour* beh : behaviours) {
-        auto basicBeh = _behaviourCreator->createBehaviour(beh->getId());
+        auto basicBeh = _behaviourCreator->createBehaviour(beh->getId(), nullptr);
         if (basicBeh != nullptr) {
             // set stuff from behaviour configuration in basic behaviour object
             basicBeh->setBehaviour(beh);

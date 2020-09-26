@@ -56,7 +56,7 @@ void ExpressionHandler::attachAll()
 
         if (p->getPreCondition() != nullptr) {
             if (p->getPreCondition()->isEnabled()) {
-                p->_preCondition->setBasicCondition(this->conditionCreator->createConditions(p->getPreCondition()->getId()));
+                p->_preCondition->setBasicCondition(this->conditionCreator->createConditions(p->getPreCondition()->getId(), nullptr));
                 attachConstraint(p->_preCondition);
             } else {
                 p->_preCondition->setBasicCondition(make_shared<BasicFalseCondition>());
@@ -64,14 +64,14 @@ void ExpressionHandler::attachAll()
         }
 
         if (p->getRuntimeCondition() != nullptr) {
-            p->_runtimeCondition->setBasicCondition(this->conditionCreator->createConditions(p->getRuntimeCondition()->getId()));
+            p->_runtimeCondition->setBasicCondition(this->conditionCreator->createConditions(p->getRuntimeCondition()->getId(), nullptr));
             attachConstraint(p->_runtimeCondition);
         }
 
         for (const Transition* t : p->_transitions) {
             if (t->getPreCondition() != nullptr) {
                 if (t->getPreCondition()->isEnabled()) {
-                    t->_preCondition->setBasicCondition(this->conditionCreator->createConditions(t->getPreCondition()->getId()));
+                    t->_preCondition->setBasicCondition(this->conditionCreator->createConditions(t->getPreCondition()->getId(), nullptr));
                     attachConstraint(t->_preCondition);
                 } else {
                     t->_preCondition->setBasicCondition(make_shared<BasicFalseCondition>());
